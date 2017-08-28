@@ -29,7 +29,6 @@ class SearchBook extends Component {
               <Link
                to='/'
                className="close-search"
-              //  onClick={() => this.props.onSearchState({ showSearchPage: false })}
                >Close</Link>
             <div className="search-books-input-wrapper">
               <input
@@ -42,7 +41,7 @@ class SearchBook extends Component {
           </div>
           <div className="search-books-results">
             <ol className="books-grid">
-            {this.props.books.map((book) => (
+            {this.state.books.map((book) => (
               <li>
                 <div key={book.id} className="book">
                   <div className="book-top">
