@@ -19,10 +19,6 @@ class SearchBook extends Component {
       this.setState({books: book})
     })
   }
-  //
-  // updateBook = (book, shelf) => {
-  //   BooksAPI.update(book, shelf)
-  // }
 
   render() {
     return(
@@ -49,8 +45,8 @@ class SearchBook extends Component {
                   <div className="book-top">
                     <div className="book-cover" style={{width: 128, height: 193, backgroundImage: `url(${book.imageLinks.smallThumbnail})`}} > </div>
                     <div className="book-shelf-changer">
-                      <select onClick={(event) => this.props.update(book, event.target.value, book)}>
-                        <option value="none" disabled>Move to...</option>
+                      <select onChange={(event) => this.props.update(book, event.target.value, book)}>
+                        <option value="none">Move to...</option>
                         <option value="currentlyReading">Currently Reading</option>
                         <option value="wantToRead">Want to Read</option>
                         <option value="read">Read</option>

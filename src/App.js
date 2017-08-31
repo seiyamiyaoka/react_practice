@@ -28,7 +28,8 @@ class BooksApp extends Component {
     let checkbook = book
     let changeShelf = shelf
     let newBook = newbook
-    if(newbook){
+
+    if(newbook && this.books.reduce(book => book.title !== newBook.title)){
       this.setState(state => {
         books: state.books.push(newbook)
       })
@@ -54,9 +55,6 @@ class BooksApp extends Component {
         <Route exact path='/' render={() => (
           <div>
             <ListBooks
-              // current={ this.state.books.filter(book => book.shelf === "currentlyReading") }
-              // want={ this.state.books.filter(book => book.shelf === "wantToRead") }
-              // read={ this.state.books.filter(book => book.shelf === "read") }
               books={this.state.books}
               update={this.updateBook}
             />
