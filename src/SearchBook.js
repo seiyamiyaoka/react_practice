@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import * as BooksAPI from './BooksAPI'
 import { Link } from 'react-router-dom'
+import ListBooks from './ListBooks'
 
 class SearchBook extends Component {
   state = {
@@ -8,15 +9,20 @@ class SearchBook extends Component {
     books: []
   }
 
+  componentDidMount() {
+  console.log(this.props)
+  console.log(this.state)
+}
+
   updateQuery = (query) => {
     BooksAPI.search(query, 7).then((book) => {
       this.setState({books: book})
     })
   }
-
-  updateBook = (book, shelf) => {
-    BooksAPI.update(book, shelf)
-  }
+  //
+  // updateBook = (book, shelf) => {
+  //   BooksAPI.update(book, shelf)
+  // }
 
   render() {
     return(
@@ -43,7 +49,7 @@ class SearchBook extends Component {
                   <div className="book-top">
                     <div className="book-cover" style={{width: 128, height: 193, backgroundImage: `url(${book.imageLinks.smallThumbnail})`}} > </div>
                     <div className="book-shelf-changer">
-                      <select onChange={(event) => this.updateBook(book, event.target.value)}>
+                      <select onChange={(event) => this.props.update(book, event.target.value, book)}>
                         <option value="none">Move to...</option>
                         <option value="currentlyReading">Currently Reading</option>
                         <option value="wantToRead">Want to Read</option>

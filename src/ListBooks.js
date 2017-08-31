@@ -8,36 +8,40 @@ class ListBooks extends Component {
     books: PropTypes.array.isRequired
   }
 
-  updateBook = (book, shelf) => {
-    BooksAPI.update(book, shelf).then((books) => {
-      this.setState({ books })
-    })
-  }
+  componentDidMount() {
+
+}
 
   render() {
-    let showingCurrentBooks, showingWantBooks, showingReadBooks;
+    const { books, update } = this.props
+    let current, want, read
 
-    showingCurrentBooks = this.props.books.filter(book => book.shelf === "currentlyReading")
-    showingWantBooks = this.props.books.filter(book => book.shelf === "wantToRead")
-    showingReadBooks = this.props.books.filter(book => book.shelf === "read")
-
+    if(books.currentlyReading || books.wantToRead || books.read){
+      current = this.props.books.currentlyReading
+      want = this.props.books.wantToRead
+      read = this.props.books.read
+    }else{
+      current = books.filter(book => book.shelf === "currentlyReading")
+      want = books.filter(book => book.shelf === "wantToRead")
+      read = books.filter(book => book.shelf === "read")
+    }
     return (
         <div className="list-books">
           <div className="list-books-title">
             <h1>MyReads</h1>
           </div>
           <div className="books-shelf">
-            <Book book={showingCurrentBooks}
+            <Book book={current}
                   shelf={"currentlyReading"}
-                  onSelectBook={this.updateBook}
+                  onSelectBook={update}
             />
-            <Book book={showingWantBooks}
+            <Book book={want}
                   shelf={"wantToRead"}
-                  onSelectBook={this.updateBook}
+                  onSelectBook={update}
             />
-            <Book book={showingReadBooks}
+            <Book book={read}
                   shelf={"read"}
-                  onSelectBook={this.updateBook}
+                  onSelectBook={update}
             />
           </div>
         </div>
