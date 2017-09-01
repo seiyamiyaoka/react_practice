@@ -8,10 +8,6 @@ class ListBooks extends Component {
     books: PropTypes.array.isRequired
   }
 
-  componentDidMount() {
-
-}
-
   render() {
     const { books, update } = this.props
     let current, want, read

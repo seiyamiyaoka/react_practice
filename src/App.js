@@ -29,14 +29,14 @@ class BooksApp extends Component {
     let changeShelf = shelf
     let newBook = newbook
 
-    if(newbook && this.books.reduce(book => book.title !== newBook.title)){
+    if(newbook && this.state.books.filter(book => book.id === newBook.id ).length !== 1){
       this.setState(state => {
         books: state.books.push(newbook)
       })
     }
 
     this.setState(state => ({
-      books: state.books.filter(book => book === checkbook ? book.shelf = changeShelf : book)
+      books: state.books.filter(book => book.id === checkbook.id ? book.shelf = changeShelf : book)
     }))
     BooksAPI.update(book, shelf)
   }

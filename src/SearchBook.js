@@ -9,14 +9,13 @@ class SearchBook extends Component {
     books: []
   }
 
-  componentDidMount() {
-  console.log(this.props)
-  console.log(this.state)
-}
-
   updateQuery = (query) => {
+    let preventBooks
+    preventBooks = this.props.books
     BooksAPI.search(query, 7).then((book) => {
-      this.setState({books: book})
+      for(let preventbook of preventBooks) {
+        this.setState({books: book.filter(newbook => preventbook.id === newbook.id ? newbook.shelf = preventbook.shelf : newbook.shelf = 'none')})
+      }
     })
   }
 
@@ -45,8 +44,8 @@ class SearchBook extends Component {
                   <div className="book-top">
                     <div className="book-cover" style={{width: 128, height: 193, backgroundImage: `url(${book.imageLinks.smallThumbnail})`}} > </div>
                     <div className="book-shelf-changer">
-                      <select onChange={(event) => this.props.update(book, event.target.value, book)}>
-                        <option value="none">Move to...</option>
+                      <select value={book.shelf} onChange={(event) => this.props.update(book, event.target.value, book)}>
+                        <option value="none" disabled>Move to...</option>
                         <option value="currentlyReading">Currently Reading</option>
                         <option value="wantToRead">Want to Read</option>
                         <option value="read">Read</option>
