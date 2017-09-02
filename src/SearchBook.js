@@ -9,13 +9,30 @@ class SearchBook extends Component {
     books: []
   }
 
+  defaultBook = (book) => {
+    book.shelf = "moveTo"
+    return book
+  }
+
   updateQuery = (query) => {
     let preventBooks
+    let result = [];
+    let searchedbook
     preventBooks = this.props.books
     BooksAPI.search(query, 7).then((book) => {
-      for(let preventbook of preventBooks) {
-        this.setState({books: book.filter(newbook => preventbook.id === newbook.id ? newbook.shelf = preventbook.shelf : newbook.shelf = 'none')})
-      }
+      book.map(searchedbook => {
+        for(let i = 0; i < preventBooks.length; i++) {
+          if (searchedbook.id === preventBooks[i].id) {
+            searchedbook["shelf"] = preventBooks[i].shelf
+            result.push(searchedbook)
+            break
+          } else if(preventBooks.length === i +1) {
+            searchedbook["shelf"] = "moveTo"
+            result.push(searchedbook)
+          }
+        }
+      })
+      this.setState({books: result})
     })
   }
 
@@ -45,7 +62,7 @@ class SearchBook extends Component {
                     <div className="book-cover" style={{width: 128, height: 193, backgroundImage: `url(${book.imageLinks.smallThumbnail})`}} > </div>
                     <div className="book-shelf-changer">
                       <select value={book.shelf} onChange={(event) => this.props.update(book, event.target.value, book)}>
-                        <option value="none" disabled>Move to...</option>
+                        <option value="moveTo" disabled>Move to...</option>
                         <option value="currentlyReading">Currently Reading</option>
                         <option value="wantToRead">Want to Read</option>
                         <option value="read">Read</option>
